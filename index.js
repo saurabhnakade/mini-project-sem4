@@ -13,10 +13,9 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
   if (req.files) {
-    var file = req.files.file;
-    var filename = file.name;
-    var folderName = 'uploads/'+req.body.folder + "/";
-    console.log(folderName)
+    var files = req.files.file;
+    var folderName = "uploads/" + req.body.folder + "/";
+    console.log(folderName);
     try {
       if (!fs.existsSync(folderName)) {
         fs.mkdirSync(folderName);
@@ -24,13 +23,25 @@ app.post("/", (req, res) => {
     } catch (err) {
       console.error(err);
     }
-    file.mv("./"+folderName + filename, function (err) {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send("File Uploaded");
-      }
-    });
+    if(files.length){
+      files.forEach((file) => {
+        var filename = file.name;
+        file.mv("./" + folderName + filename, function (err) {
+          if (err) {
+            res.send(err);
+          }
+        });
+      });
+    }else{
+      var filename = files.name;
+      files.mv("./" + folderName + filename, function (err) {
+        if (err) {
+          res.send(err);
+        } 
+      });
+    }
+    
+    res.send("File Uploaded");
   }
 });
 
