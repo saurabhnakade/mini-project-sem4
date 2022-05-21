@@ -28,10 +28,10 @@ app.post("/", (req, res) => {
       console.log("Done Decompressing");
     });
 
-    fs.unlink("./uploads/temp/"+filename, function (err) {
-      if (err) throw err;
-      console.log("File deleted!");
-    });
+    // fs.unlink("./uploads/temp/"+filename, function (err) {
+    //   if (err) throw err;
+    //   console.log("File deleted!");
+    // });
 
     res.send("File Uploaded");
   }
